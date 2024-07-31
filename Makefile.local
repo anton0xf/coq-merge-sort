@@ -1,0 +1,5 @@
+# -*- Makefile -*-
+GEN_OCAML_FILES = merge_sort.ml
+
+cleanall::
+	$(HIDE)rm -f $(addprefix ocaml/, $(GEN_OCAML_FILES) $(GEN_OCAML_FILES:.ml=.mli))

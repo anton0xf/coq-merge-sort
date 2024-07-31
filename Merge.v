@@ -1,5 +1,3 @@
-Module Merge.
-
 Require Import Arith.
 Require Import List.
 Import ListNotations.
@@ -7,6 +5,7 @@ Require Import Sorted.
 From Coq Require Import Recdef.
 Require Import Permutation.
 
+(* Module Merge. *)
 (* === special induction === *)
 
 (* provide explicit proof term
@@ -453,4 +452,4 @@ Qed.
 (* Require Import ExtrHaskellBasic. *)
 (* Extraction "merge_sort.hs" merge_sort. *)
 
-End Merge.
+(* End Merge. *)
