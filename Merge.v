@@ -3,9 +3,10 @@ Require Import List.
 Import ListNotations.
 Require Import Sorted.
 From Coq Require Import Recdef.
+
+(* https://coq.inria.fr/doc/v8.9/stdlib/Coq.Sorting.Permutation.html *)
 Require Import Permutation.
 
-(* Module Merge. *)
 (* === special induction === *)
 
 (* provide explicit proof term
@@ -137,67 +138,6 @@ Definition merge_sort (xs: list nat): list nat := merge_all (split_all xs).
 
 Compute merge_sort [2; 3; 1; 5; 4; 6; 4].
 (* = Some [1; 2; 3; 4; 4; 5; 6] : option (list nat) *)
-
-(* === Preserve legth === *)
-Theorem merge_preserve_length (xs ys: list nat):
-  length (merge xs ys) = length xs + length ys.
-Proof.
-  generalize dependent ys. induction xs as [|x xs' IHxs]; intro ys.
-  - (* xs = [] *) simpl. destruct ys; reflexivity.
-  - (* xs = x :: xs' *) simpl. induction ys as [|y ys' IHys].
-    + (* ys = [] *) simpl. trivial.
-    + (* ys = y :: ys' *) simpl. destruct (x <=? y).
-      * (* x <= y *) simpl. rewrite IHxs. simpl. trivial.
-      * (* x >  y *) remember
-          (fix aux (ys : list nat) : list nat :=
-             match ys with
-             | [] => x :: xs'
-             | y :: ys' => if x <=? y then x :: merge xs' ys else y :: aux ys'
-             end)
-          as aux eqn:aux_def.
-        simpl. rewrite IHys. ring.
-Qed.
-
-Definition len (xs: list nat): nat := length xs.
-Example len_ex: map len [[1;2]] = [2]. Proof. trivial. Qed.
-
-Theorem split_all_preserve_lenght (xs: list nat):
-  list_sum (map len (split_all xs)) = length xs.
-Proof.
-  induction xs as [|x xs' IH].
-  - simpl. reflexivity.
-  - simpl. rewrite IH. reflexivity.
-Qed.
-
-Theorem merge_pairs_preserve_length (xss: list (list nat)):
-  list_sum (map len (merge_pairs xss)) = list_sum (map len xss).
-Proof.
-  apply (list_ind2 (fun yss: list (list nat) =>
-                      list_sum (map len (merge_pairs yss)) =
-                        list_sum (map len yss)));
-    try reflexivity.
-  intros ys1 ys2 yss IH. simpl. rewrite IH.
-  unfold len at 1. rewrite merge_preserve_length.
-  unfold len. ring.
-Qed.
-
-Theorem merge_all_preserve_lenght (xss: list (list nat)):
-  length (merge_all xss) = list_sum (map len xss).
-Proof.
-  apply merge_all_ind.
-  - (* xss = [] *) intros _ _. reflexivity.
-  - (* xss = [xs] *) intros xss1 xs eq. simpl. trivial.
-  - (* xss = _ :: _ :: _ *) intros xss' xss'' eq H IH. subst xss''.
-    simpl. rewrite IH. apply merge_pairs_preserve_length.
-Qed.
-
-
-Theorem merge_sort_preserve_lenght (xs: list nat): length (merge_sort xs) = length xs.
-Proof.
-  unfold merge_sort.
-  rewrite merge_all_preserve_lenght. rewrite split_all_preserve_lenght.
-  reflexivity.
-Qed.
 
 (* === Sorted === *)
 Inductive Is_sorted: list nat -> Prop :=
@@ -437,19 +377,10 @@ Proof.
   - apply merge_all_perm.
 Qed.
 
-(* TODO replace length theorems by Permutation_length *)
+(* === Preserve legth === *)
+Theorem merge_sort_preserve_lenght (xs: list nat): length (merge_sort xs) = length xs.
+Proof.
+  symmetry. apply Permutation_length. apply merge_sort_perm.
+Qed.
 
-(* === Extraction === *)
-(* https://softwarefoundations.cis.upenn.edu/vfa-current/Extract.html *)
-(* Extract Inductive bool => "bool" [ "true" "false" ]. *)
-(* Extract Inductive list => "list" [ "[]" "(::)" ]. *)
-(* Extract Inductive nat => "int" [ "0" "(+)" ]. *)
-(* Extract Inlined Constant leb => "( <= )". *)
-(* Recursive Extraction merge_sort. *)
-(* Extraction "merge_sort.ml" merge_sort merge_all split_all merge_pairs merge. *)
-
-(* Extraction Language Haskell. *)
-(* Require Import ExtrHaskellBasic. *)
-(* Extraction "merge_sort.hs" merge_sort. *)
-
-(* End Merge. *)
+(* see Permutation_in and Permutation_ind_bis *)

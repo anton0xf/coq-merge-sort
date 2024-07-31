@@ -1,3 +1,6 @@
+# Merge Sort in Coq
+An example of using the Coq language to generate a simple but practical formally verificated sorting algorithm
+
 ## HowTo
 Regenerate Makefile:
 ```sh
