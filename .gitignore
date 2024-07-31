@@ -1,0 +1,20 @@
+.*
+!.gitignore
+
+# coq
+*.aux
+*.glob
+*.vo
+*.vok
+*.vos
+
+# ocaml
+*.o
+*.cmi
+*.cmx
+*.cmo
+
+# generated
+/ocaml/merge_demo
+/ocaml/merge_sort.ml
+/ocaml/merge_sort.mli
