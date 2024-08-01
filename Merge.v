@@ -86,6 +86,9 @@ Fixpoint split_all (xs: list nat): list (list nat) :=
   | x :: xs' => [x] :: split_all xs'
   end.
 
+Compute split_all [1;2;3].
+(* = [[1]; [2]; [3]] : list (list nat) *)
+
 Fixpoint merge_pairs (xss: list (list nat)): list (list nat) :=
   match xss with
   | [] => []
@@ -137,7 +140,7 @@ https://coq.inria.fr/doc/v8.9/stdlib/Coq.Sorting.Mergesort.html
 Definition merge_sort (xs: list nat): list nat := merge_all (split_all xs).
 
 Compute merge_sort [2; 3; 1; 5; 4; 6; 4].
-(* = Some [1; 2; 3; 4; 4; 5; 6] : option (list nat) *)
+(* = Some [1; 2; 3; 4; 4; 5; 6] : list nat *)
 
 (* === Sorted === *)
 Inductive Is_sorted: list nat -> Prop :=

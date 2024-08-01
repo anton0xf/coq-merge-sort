@@ -19,5 +19,3 @@ node_modules
 
 # generated
 /ocaml/merge_demo
-/ocaml/merge_sort.ml
-/ocaml/merge_sort.mli
