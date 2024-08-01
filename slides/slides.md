@@ -3,12 +3,19 @@ footer: https://github.com/anton0xf/coq-merge-sort
 header: Антон Стеканов -->
 
 # Доказательство корректности программ
-формальная верификация с использованием [Coq](https://en.wikipedia.org/wiki/Coq_(software)) \
+формальная верификация с использованием [Coq](https://en.wikipedia.org/wiki/Coq_(software)) 
 * disclaimer
 * методы проверки корректности программ
 * почему формальная верификация
 * пример merge sort
 * как это работает
+
+![width:200px](./img/qrcode.png)
+
+---
+
+# Доказательство корректности программ
+![width:500px](./img/qrcode.png)
 
 ---
 
@@ -483,5 +490,4 @@ $ ./merge_demo
 ---
 
 # Спасибо за внимание!
-
-QR-CODE ???
+![width:400px](./img/qrcode.png)
